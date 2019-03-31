@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-@author: edwardahn
+@author: edwardahn & Jiyuan Zhou
 
 Evaluate a policy and publish metrics.
 """
@@ -41,7 +41,7 @@ def plot_curve(error, name, units):
     plt.xlabel('Time steps')
     plt.ylabel('Error (%s)' % units)
     if name == 'Distance':
-        plt.gca().set_ylim((-0.01, 0.01))
+        plt.gca().set_ylim((-0.1, 0.1))
     else:
         plt.gca().set_ylim((-0.7, 0.7))
     plt.show()
@@ -76,7 +76,7 @@ def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('file', type=str,
                         help='path to the snapshot file')
-    parser.add_argument('--max_path_length', type=int, default=100,
+    parser.add_argument('--max_path_length', type=int, default=200,
                         help='Max length of rollout')
     parser.add_argument('--speedup', type=float, default=100000,
                         help='Speedup')

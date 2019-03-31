@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-@author: edwardahn
+@author: edwardahn & Jiyuan Zhou
 
 Train local planner using TRPO so that a vehicle can follow a sequence
 of arbitrary curvatures.
@@ -18,15 +18,14 @@ from rllab.misc.instrument import run_experiment_lite, VariantGenerator
 from rllab.misc.resolve import load_class
 from rllab.policies.gaussian_mlp_policy import GaussianMLPPolicy
 
-from aa_simulation.envs.local_planner_env import LocalPlannerEnv
+from aa_simulation.envs.local_planner_env_straight import LocalPlannerEnvStraight
 
 
 def run_task(vv, log_dir=None, exp_name=None):
 
     # Load environment
-    radius = vv['radius']
     target_velocity = vv['target_velocity']
-    env = normalize(LocalPlannerEnv(radius, target_velocity))
+    env = normalize(LocalPlannerEnvStraight(target_velocity))
 
     # Save variant information for comparison plots
     variant_file = logger.get_snapshot_dir() + '/variant.json'
@@ -44,7 +43,7 @@ def run_task(vv, log_dir=None, exp_name=None):
         baseline=baseline,
         batch_size=1000,
         max_path_length=env.horizon,
-        n_itr=500,
+        n_itr=1000,
         discount=0.99,
         step_size=0.01,
         plot=False,
@@ -57,7 +56,6 @@ def main():
     # Set up multiple experiments at once
     vg = VariantGenerator()
     vg.add('target_velocity', [0.7])
-    vg.add('radius', [1])
     vg.add('seed', [100])
     print('Number of Configurations: ', len(vg.variants()))
 

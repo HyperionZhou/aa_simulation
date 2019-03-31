@@ -28,11 +28,8 @@ class LocalPlannerEnv(VehicleEnv):
         Initialize super class parameters, obstacles and radius.
         """
         super(LocalPlannerEnv, self).__init__(target_velocity)
-
-        # Radius of trajectory to follow
+        
         self.radius = radius
-
-
     @property
     def observation_space(self):
         return Box(low=-np.inf, high=np.inf, shape=(4,))
@@ -43,9 +40,20 @@ class LocalPlannerEnv(VehicleEnv):
         """
         Get initial state of car when simulation is reset.
         """
+
+        # Radius of trajectory to follow
+        
+        # self.init_dx = 2 * np.random.random() * self.target_velocity
+        # self.init_dy = 2 * np.random.random() * self.target_velocity - self.target_velocity
+        self.init_dir = np.deg2rad(270)
+                        # np.deg2rad(90 * (np.random.random()) - 45)
+        # self.dyaw = np.random.random() * 1 - 0.5
         state = np.zeros(6)
         state[0] = -self.radius
-        state[2] = np.deg2rad(270)
+        state[2] = self.init_dir
+        # state[3] = self.init_dx
+        # state[4] = self.init_dy
+        # state[5] = self.dyaw
         return state
 
 
@@ -106,6 +114,8 @@ class LocalPlannerEnv(VehicleEnv):
         """
         r = self.radius
         x, y, yaw, x_dot, y_dot, yaw_dot = state
+
+        # vel = np.sqrt(np.square(x_dot) + np.square(y_dot))
 
         dx = np.sqrt(np.square(x) + np.square(y)) - r
         theta = self._normalize_angle(np.arctan2(-x, y) + np.pi - yaw)

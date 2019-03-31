@@ -1,3 +1,4 @@
+aa_simulation working place
 # Assured Autonomy - Simulation
 
 This module provides a simulation environment and training scripts for training an RWD vehicle modeled using a kinematic bicycle model with a tire dynamic model to move from one location to another while safely avoiding obstacles. Specifically, this module is tailored for use in an [rllab](https://github.com/rll/rllab) setting, which is a third-party library that we use to train our vehicle planner using deep reinforcement learning.
